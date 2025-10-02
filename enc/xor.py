@@ -56,8 +56,11 @@ def main():
         
         print(f"[+] XOR Key: {args.key}")
         print(f"[+] Input string: {args.string}")
-        
-        cipher = xor(args.string, args.key)
+
+        # append null byte (0x00) before encryption
+        plaintext = args.string.encode() + b"\x00"
+
+        cipher = xor(plaintext, args.key)
         
         print("[+] XOR encrypted data (C array):")
         printCiphertext(cipher)
@@ -78,7 +81,7 @@ def main():
 
         cipher = xor(plaintext, args.key)
 
-        if(args.output):
+        if args.output:
             print(f"[+] Writing XOR encrypted data into {args.output}")
             try:
                 with open(args.output, "wb") as xored_file:
